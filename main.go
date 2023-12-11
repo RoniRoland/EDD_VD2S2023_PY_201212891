@@ -4,11 +4,34 @@ import (
 	"EDD_VD2S2023_PY_201212891/estructuras/Lists"
 	"EDD_VD2S2023_PY_201212891/estructuras/PriorityQueue"
 	"fmt"
+	"os"
+	"os/exec"
+	"runtime"
 )
 
 var circularList *Lists.CircularList = &Lists.CircularList{Start: nil, Lenght: 0}
 var doubleList *Lists.DoubleList = &Lists.DoubleList{Start: nil, Lenght: 0}
 var priorityQueue *PriorityQueue.Queue = &PriorityQueue.Queue{First: nil, Lenght: 0}
+
+func clearScreen() {
+	switch runtime.GOOS {
+	case "linux", "darwin":
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	case "windows":
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	default:
+		fmt.Println("No se puede limpiar la pantalla en este sistema operativo.")
+	}
+}
+
+func pressEnterToContinue() {
+	fmt.Print("\nPresiona Enter para continuar...")
+	fmt.Scanln()
+}
 
 func rowMajor(dimension int, coordenadas []int, tamanio []int) int {
 	var index int
@@ -36,6 +59,7 @@ func main() {
 	opt := 0
 	exit := false
 	for !exit {
+		clearScreen()
 		fmt.Println("=====================================================")
 		fmt.Println("||                   LOGIN                         ||")
 		fmt.Println("||                                                 ||")
@@ -48,6 +72,7 @@ func main() {
 
 		switch opt {
 		case 1:
+			clearScreen()
 			Login()
 		case 2:
 			exit = true
@@ -58,18 +83,24 @@ func main() {
 func Login() {
 	usuario := ""
 	password := ""
-	fmt.Print("Usuario: ")
+	fmt.Println("=====================================================")
+	fmt.Println("||                   LOGIN                         ||")
+	fmt.Println("=====================================================")
+	fmt.Print("               Usuario: ")
 	fmt.Scanln(&usuario)
-	fmt.Print("Password: ")
+	fmt.Print("               Password: ")
 	fmt.Scanln(&password)
 
-	if usuario == "ADMIN_201212891" && password == "admin" {
-		fmt.Println("Administrador Inicio Sesion")
+	if usuario == "admin" && password == "admin" {
+		fmt.Println("\n*****Sesion Iniciada Correctamente******")
+		pressEnterToContinue()
 		MenuAdmin()
 	} else if doubleList.Find(usuario, password) {
 		fmt.Println("Bienvenido alumno ", usuario)
 	} else {
-		fmt.Println("ERROR EN CREDENCIALES!!!!")
+		fmt.Println("\n Contraseña y usuario INCORRECTOS")
+		pressEnterToContinue()
+		clearScreen()
 	}
 }
 
@@ -77,15 +108,19 @@ func MenuAdmin() {
 	opt := 0
 	exit := false
 	for !exit {
-		fmt.Println("===================================================================")
-		fmt.Println("||                   	MENU ADMINISTRADOR                        ||")
+		clearScreen()
+		fmt.Println("═══════════════════════════════════════════════════════════════════")
+		fmt.Println("||                   	MENU ADMINISTRADOR                       ||")
 		fmt.Println("||                                                               ||")
 		fmt.Println("||              1.- Carga de Estudiantes Tutores                 ||")
 		fmt.Println("||              2.- Carga de Estudiantes                         ||")
-		fmt.Println("||              3.- Cargar de Cursos")
-		fmt.Println("||              4.- Control de Estudiantes")
-		fmt.Println("||              5.- Reportes")
-		fmt.Println("6. Salir")
+		fmt.Println("||              3.- Cargar de Cursos                             ||")
+		fmt.Println("||              4.- Control de Estudiantes                       ||")
+		fmt.Println("||              5.- Reportes                                     ||")
+		fmt.Println("||              6.- Salir                                        ||")
+		fmt.Println("||                                                               ||")
+		fmt.Println("===================================================================")
+		fmt.Print("               Ingrese opcion: ")
 		fmt.Scanln(&opt)
 		switch opt {
 		case 1:
@@ -107,18 +142,28 @@ func MenuAdmin() {
 
 func CargaTutores() {
 	ruta := ""
-	fmt.Print("Nombre de Archivo: ")
+	clearScreen()
+	fmt.Println("=====================================================")
+	fmt.Println("||              CARGA DE TUTORES                    ||")
+	fmt.Println("=====================================================")
+	fmt.Print("             Nombre del Archivo CSV: ")
 	fmt.Scanln(&ruta)
 	priorityQueue.LeerCSV(ruta)
-	fmt.Println("Se cargo a la Cola los tutores")
+	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
+	pressEnterToContinue()
 }
 
 func CargaEstudiantes() {
 	ruta := ""
-	fmt.Print("Nombre de Archivo: ")
+	clearScreen()
+	fmt.Println("=====================================================")
+	fmt.Println("||              CARGA DE ESTUDIANTES               ||")
+	fmt.Println("=====================================================")
+	fmt.Print("          Nombre del Archivo CSV: ")
 	fmt.Scanln(&ruta)
 	doubleList.ReadCSV(ruta)
-	fmt.Println("Se cargo los estudiantes")
+	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
+	pressEnterToContinue()
 }
 
 func ControlEstudiantes() {

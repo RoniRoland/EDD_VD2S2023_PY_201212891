@@ -97,15 +97,18 @@ func (c *Queue) First_Queue() {
 	if c.Lenght == 0 {
 		fmt.Println("No hay mas Tutores")
 	} else {
-		fmt.Println("Actual: ", c.First.Tutor.StudentID)
-		fmt.Println("Name: ", c.First.Tutor.Name)
-		fmt.Println("Class: ", c.First.Tutor.Class)
-		fmt.Println("Score: ", c.First.Tutor.Score)
-		fmt.Println("Priority: ", c.First.Priority)
+		fmt.Println("================================================================")
+		fmt.Println("||              CONTROL DE ESTUDIANTES TUTORES                ||")
+		fmt.Println("||                                                            ||")
+		fmt.Println("||     Actual: ", c.First.Tutor.StudentID, "                  ||")
+		fmt.Println("||     Nombre: ", c.First.Tutor.Name, "                       ||")
+		fmt.Println("||     Curso: ", c.First.Tutor.Class, "                       ||")
+		fmt.Println("||     Nota: ", c.First.Tutor.Score, "                        ||")
+		fmt.Println("||     Prioridad: ", c.First.Priority, "                      ||")
 		if c.First.Next != nil {
-			fmt.Println("Next: ", c.First.Next.Tutor.StudentID)
+			fmt.Println("Siguiente: ", c.First.Next.Tutor.StudentID)
 		} else {
-			fmt.Print("Next: No hay mas tutores por evaluar")
+			fmt.Print("Siguiente: No hay mas tutores por evaluar")
 		}
 	}
 }
