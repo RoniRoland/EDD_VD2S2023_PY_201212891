@@ -97,16 +97,16 @@ func (c *Queue) First_Queue() {
 	if c.Lenght == 0 {
 		fmt.Println("No hay mas Tutores")
 	} else {
-		fmt.Println("================================================================")
-		fmt.Println("||              CONTROL DE ESTUDIANTES TUTORES                ||")
-		fmt.Println("||                                                            ||")
-		fmt.Println("||     Actual: ", c.First.Tutor.StudentID, "                  ||")
-		fmt.Println("||     Nombre: ", c.First.Tutor.Name, "                       ||")
-		fmt.Println("||     Curso: ", c.First.Tutor.Class, "                       ||")
-		fmt.Println("||     Nota: ", c.First.Tutor.Score, "                        ||")
-		fmt.Println("||     Prioridad: ", c.First.Priority, "                      ||")
+		fmt.Println("===============================================================")
+		fmt.Println("||              CONTROL DE ESTUDIANTES TUTORES               ||")
+		fmt.Println("||                                                           ||")
+		fmt.Printf("||     Actual:    %-43d||\n", c.First.Tutor.StudentID)
+		fmt.Printf("||     Nombre:    %-43s||\n", c.First.Tutor.Name)
+		fmt.Printf("||     Curso:     %-43s||\n", c.First.Tutor.Class)
+		fmt.Printf("||     Nota:      %-43d||\n", c.First.Tutor.Score)
+		fmt.Printf("||     Prioridad: %-43d||\n", c.First.Priority)
 		if c.First.Next != nil {
-			fmt.Println("Siguiente: ", c.First.Next.Tutor.StudentID)
+			fmt.Printf("||     Siguiente: %-43d||\n", c.First.Next.Tutor.StudentID)
 		} else {
 			fmt.Print("Siguiente: No hay mas tutores por evaluar")
 		}

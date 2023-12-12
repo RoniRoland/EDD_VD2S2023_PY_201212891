@@ -171,11 +171,14 @@ func ControlEstudiantes() {
 	salir := false
 
 	for !salir {
+		clearScreen()
 		priorityQueue.First_Queue()
-		fmt.Println("════════════════════")
-		fmt.Println("1. Aceptar")
-		fmt.Println("2. Rechazar")
-		fmt.Println("3. Salir")
+		fmt.Println("═══════════════════════════════════════════════════════════════")
+		fmt.Println("||                  1.- Aceptar                              ||")
+		fmt.Println("||                  2.- Rechazar                             ||")
+		fmt.Println("||                  3.- Salir                                ||")
+		fmt.Println("═══════════════════════════════════════════════════════════════")
+		fmt.Print("               Ingrese opcion: ")
 		fmt.Scanln(&opcion)
 		if opcion == 1 {
 			circularList.Add(priorityQueue.First.Tutor.StudentID, priorityQueue.First.Tutor.Name, priorityQueue.First.Tutor.Class, priorityQueue.First.Tutor.Score)
