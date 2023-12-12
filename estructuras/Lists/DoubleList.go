@@ -50,25 +50,25 @@ func (l *DoubleList) Find(studentID string, password string) bool {
 func (l *DoubleList) ReadCSV(ruta string) {
 	file, err := os.Open(ruta)
 	if err != nil {
-		fmt.Println("No pude abrir el archivo")
+		fmt.Println("Error al abrir el archivo")
 		return
 	}
 	defer file.Close()
 
-	lectura := csv.NewReader(file)
-	lectura.Comma = ','
-	encabezado := true
+	readCSV := csv.NewReader(file)
+	readCSV.Comma = ','
+	header := true
 	for {
-		linea, err := lectura.Read()
+		linea, err := readCSV.Read()
 		if err == io.EOF {
 			break
 		}
 		if err != nil {
-			fmt.Println("No pude leer la linea del csv")
+			fmt.Println("Error al leer las lineas del CSV")
 			continue
 		}
-		if encabezado {
-			encabezado = false
+		if header {
+			header = false
 			continue
 		}
 		valor, _ := strconv.Atoi(linea[0])

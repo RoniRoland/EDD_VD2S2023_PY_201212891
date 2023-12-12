@@ -33,28 +33,6 @@ func pressEnterToContinue() {
 	fmt.Scanln()
 }
 
-func rowMajor(dimension int, coordenadas []int, tamanio []int) int {
-	var index int
-
-	if dimension == 1 {
-		index = coordenadas[0]
-	} else {
-		index = coordenadas[0]
-		for i := 1; i < dimension; i++ {
-			index = index*tamanio[i] + coordenadas[i]
-		}
-	}
-	return index
-}
-
-func operar() {
-	dimension := 2
-	coordenadas := []int{0, 2}
-	tamanio := []int{3, 3}
-	resultado := rowMajor(dimension, coordenadas, tamanio)
-	fmt.Println(resultado)
-}
-
 func main() {
 	opt := 0
 	exit := false
@@ -94,9 +72,11 @@ func Login() {
 	if usuario == "admin" && password == "admin" {
 		fmt.Println("\n*****Sesion Iniciada Correctamente******")
 		pressEnterToContinue()
-		MenuAdmin()
+		AdminMenu()
 	} else if doubleList.Find(usuario, password) {
 		fmt.Println("Bienvenido alumno ", usuario)
+		pressEnterToContinue()
+		StudentMenu()
 	} else {
 		fmt.Println("\n Contraseña y usuario INCORRECTOS")
 		pressEnterToContinue()
@@ -104,7 +84,7 @@ func Login() {
 	}
 }
 
-func MenuAdmin() {
+func AdminMenu() {
 	opt := 0
 	exit := false
 	for !exit {
@@ -124,9 +104,9 @@ func MenuAdmin() {
 		fmt.Scanln(&opt)
 		switch opt {
 		case 1:
-			CargaTutores()
+			TutorLoadCSV()
 		case 2:
-			CargaEstudiantes()
+			StudentsLoadCSV()
 		case 3:
 			fmt.Println("Se cargo los cursos")
 		case 4:
@@ -140,7 +120,34 @@ func MenuAdmin() {
 	}
 }
 
-func CargaTutores() {
+func StudentMenu() {
+	opt := 0
+	exit := false
+	for !exit {
+		clearScreen()
+		fmt.Println("═══════════════════════════════════════════════════════════════════")
+		fmt.Println("||                   	MENU ESTUDIANTE                           ||")
+		fmt.Println("||                                                               ||")
+		fmt.Println("||              1.- Ver Tutores disponibles                      ||")
+		fmt.Println("||              2.- Asignarse a tutores                          ||")
+		fmt.Println("||              3.- Salir                                        ||")
+		fmt.Println("||                                                               ||")
+		fmt.Println("===================================================================")
+		fmt.Print("               Ingrese opcion: ")
+		fmt.Scanln(&opt)
+		switch opt {
+		case 1:
+			fmt.Println("tutos disponibles")
+		case 2:
+			fmt.Println("asignacion")
+		case 3:
+			exit = true
+		}
+
+	}
+}
+
+func TutorLoadCSV() {
 	ruta := ""
 	clearScreen()
 	fmt.Println("=====================================================")
@@ -153,7 +160,7 @@ func CargaTutores() {
 	pressEnterToContinue()
 }
 
-func CargaEstudiantes() {
+func StudentsLoadCSV() {
 	ruta := ""
 	clearScreen()
 	fmt.Println("=====================================================")
@@ -182,9 +189,9 @@ func ControlEstudiantes() {
 		fmt.Scanln(&opcion)
 		if opcion == 1 {
 			circularList.Add(priorityQueue.First.Tutor.StudentID, priorityQueue.First.Tutor.Name, priorityQueue.First.Tutor.Class, priorityQueue.First.Tutor.Score)
-			priorityQueue.Descolar()
+			priorityQueue.Dequeue()
 		} else if opcion == 2 {
-			priorityQueue.Descolar()
+			priorityQueue.Dequeue()
 		} else if opcion == 3 {
 			salir = true
 		} else {

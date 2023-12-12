@@ -54,7 +54,7 @@ func (c *Queue) AddQue(studentID int, name string, class string, score int) {
 	}
 }
 
-func (c *Queue) Descolar() {
+func (c *Queue) Dequeue() {
 	if c.Lenght == 0 {
 		fmt.Println("No hay tutores en la cola")
 	} else {
