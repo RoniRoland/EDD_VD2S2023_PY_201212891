@@ -49,6 +49,7 @@ func (l *CircularList) Add(studentID int, name string, class string, score int) 
 		newNode.Previous = aux
 		newNode.Next = l.Start
 		aux.Next = newNode
+		l.Start.Previous = newNode
 		l.Lenght++
 	}
 }
