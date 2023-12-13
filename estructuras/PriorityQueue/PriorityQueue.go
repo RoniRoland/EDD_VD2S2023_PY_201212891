@@ -107,8 +107,10 @@ func (c *Queue) First_Queue() {
 		fmt.Printf("||     Prioridad: %-43d||\n", c.First.Priority)
 		if c.First.Next != nil {
 			fmt.Printf("||     Siguiente: %-43d||\n", c.First.Next.Tutor.StudentID)
+			fmt.Println("||                                                           ||")
 		} else {
-			fmt.Print("Siguiente: No hay mas tutores por evaluar")
+			fmt.Printf("||     Siguiente: No hay mas tutores por evaluar             ||\n")
+			fmt.Println("||                                                           ||")
 		}
 	}
 }
