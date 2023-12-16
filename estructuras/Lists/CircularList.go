@@ -102,6 +102,36 @@ func (l *CircularList) FindTutor(class string) *CircularNode {
 	return nil
 }
 
+func (l *CircularList) TutorExistsForClass(class string) (*Tutor, bool) {
+	if l.Lenght == 0 {
+		return nil, false
+	} else {
+		aux := l.Start
+		cont := 1
+		for l.Lenght >= cont {
+			if aux.Tutor.Class == class {
+				return aux.Tutor, true
+			}
+			aux = aux.Next
+			cont++
+		}
+	}
+	return nil, false
+}
+
+func (l *CircularList) ReplaceTutor(existingTutor *Tutor, newTutor *Tutor) {
+	aux := l.Start
+	cont := 1
+	for l.Lenght >= cont {
+		if aux.Tutor == existingTutor {
+			aux.Tutor = newTutor
+			return
+		}
+		aux = aux.Next
+		cont++
+	}
+}
+
 func (l *CircularList) Reportev2() {
 	nombreArchivo := "./listadoblecircular.dot"
 	nombreImagen := "./listadoblecircular.jpg"

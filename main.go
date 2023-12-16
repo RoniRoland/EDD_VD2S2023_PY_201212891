@@ -282,8 +282,18 @@ func ControlEstudiantes() {
 		fmt.Print("               Ingrese opcion: ")
 		fmt.Scanln(&opcion)
 		if opcion == 1 {
-			circularList.Add(priorityQueue.First.Tutor.StudentID, priorityQueue.First.Tutor.Name, priorityQueue.First.Tutor.Class, priorityQueue.First.Tutor.Score)
-			priorityQueue.Dequeue()
+			if tutor, exists := circularList.TutorExistsForClass(priorityQueue.First.Tutor.Class); exists {
+				// Si ya hay un tutor para el curso, comparar notas y retener al tutor con la nota más alta
+				if priorityQueue.First.Tutor.Score > tutor.Score {
+					// Reemplazar al tutor existente con el nuevo tutor
+					circularList.ReplaceTutor(tutor, (*Lists.Tutor)(priorityQueue.First.Tutor))
+				}
+				priorityQueue.Dequeue()
+			} else {
+				// Si no hay tutor para el curso, agregar al nuevo tutor
+				circularList.Add(priorityQueue.First.Tutor.StudentID, priorityQueue.First.Tutor.Name, priorityQueue.First.Tutor.Class, priorityQueue.First.Tutor.Score)
+				priorityQueue.Dequeue()
+			}
 		} else if opcion == 2 {
 			priorityQueue.Dequeue()
 		} else if opcion == 3 {
