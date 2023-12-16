@@ -89,7 +89,7 @@ func (c *Queue) LeerCSV(ruta string) {
 		}
 		studentID, _ := strconv.Atoi(linea[0])
 		score, _ := strconv.Atoi(linea[3])
-		c.AddQue(studentID, linea[1], linea[2], score)
+		c.AddQue(studentID, linea[1], "0"+linea[2], score)
 	}
 }
 

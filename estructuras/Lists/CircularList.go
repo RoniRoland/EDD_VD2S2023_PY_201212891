@@ -1,12 +1,18 @@
 package Lists
 
+import (
+	"EDD_VD2S2023_PY_201212891/estructuras/GenerarArchivos"
+	"fmt"
+	"strconv"
+)
+
 type CircularList struct {
 	Start  *CircularNode
 	Lenght int
 }
 
 func (l *CircularList) Add(studentID int, name string, class string, score int) {
-	newTutor := &Tutor{StudentID: studentID, Name: name}
+	newTutor := &Tutor{StudentID: studentID, Name: name, Class: class, Score: score}
 	newNode := &CircularNode{Tutor: newTutor, Next: nil, Previous: nil}
 
 	if l.Lenght == 0 {
@@ -52,4 +58,72 @@ func (l *CircularList) Add(studentID int, name string, class string, score int) 
 		l.Start.Previous = newNode
 		l.Lenght++
 	}
+}
+
+func (l *CircularList) Show() {
+	aux := l.Start
+	cont := 1
+	for cont <= l.Lenght {
+		fmt.Println("═══════════════════════════════════════════════════════════════")
+		fmt.Println(cont, ".- ", " ", aux.Tutor.Class, " -> ", aux.Tutor.Name)
+		fmt.Println("═══════════════════════════════════════════════════════════════")
+		aux = aux.Next
+		cont++
+	}
+}
+
+func (l *CircularList) Find(class string) bool {
+	if l.Lenght == 0 {
+		return false
+	} else {
+		aux := l.Start
+		cont := 1
+		for l.Lenght >= cont {
+			if aux.Tutor.Class == class {
+				return true
+			}
+			aux = aux.Next
+			cont++
+		}
+	}
+	return false
+}
+
+func (l *CircularList) FindTutor(class string) *CircularNode {
+	aux := l.Start
+	cont := 1
+	for l.Lenght >= cont {
+		if aux.Tutor.Class == class {
+			return aux
+		}
+		aux = aux.Next
+		cont++
+	}
+	return nil
+}
+
+func (l *CircularList) Reportev2() {
+	nombreArchivo := "./listadoblecircular.dot"
+	nombreImagen := "./listadoblecircular.jpg"
+	texto := "digraph lista{\n"
+	texto += "rankdir=LR;\n"
+	texto += "node[shape = record];\n"
+	aux := l.Start
+	contador := 0
+	for i := 0; i < l.Lenght; i++ {
+		texto += "nodo" + strconv.Itoa(i) + "[label=\"{" + strconv.Itoa(aux.Tutor.StudentID) + " | " + aux.Tutor.Name + "}\"];\n"
+		aux = aux.Next
+	}
+	for i := 0; i < l.Lenght-1; i++ {
+		c := i + 1
+		texto += "nodo" + strconv.Itoa(i) + "->nodo" + strconv.Itoa(c) + ";\n"
+		texto += "nodo" + strconv.Itoa(c) + "->nodo" + strconv.Itoa(i) + ";\n"
+		contador = c
+	}
+	texto += "nodo" + strconv.Itoa(contador) + "->nodo0 \n"
+	texto += "nodo0 -> " + "nodo" + strconv.Itoa(contador) + "\n"
+	texto += "}"
+	GenerarArchivos.CrearArchivo(nombreArchivo)
+	GenerarArchivos.EscribirArchivo(texto, nombreArchivo)
+	GenerarArchivos.Ejecutar(nombreImagen, nombreArchivo)
 }

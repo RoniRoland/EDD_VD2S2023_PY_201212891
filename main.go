@@ -1,17 +1,23 @@
 package main
 
 import (
+	"EDD_VD2S2023_PY_201212891/estructuras/AVLTree"
 	"EDD_VD2S2023_PY_201212891/estructuras/Lists"
+	"EDD_VD2S2023_PY_201212891/estructuras/MatrizDispersa"
 	"EDD_VD2S2023_PY_201212891/estructuras/PriorityQueue"
 	"fmt"
 	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
 )
 
 var circularList *Lists.CircularList = &Lists.CircularList{Start: nil, Lenght: 0}
 var doubleList *Lists.DoubleList = &Lists.DoubleList{Start: nil, Lenght: 0}
 var priorityQueue *PriorityQueue.Queue = &PriorityQueue.Queue{First: nil, Lenght: 0}
+var matrizDispersa *MatrizDispersa.Matriz = &MatrizDispersa.Matriz{Raiz: &MatrizDispersa.NodoMatriz{PosX: -1, PosY: -1, Dato: &MatrizDispersa.Dato{Carnet_Tutor: 0, Carnet_Estudiante: 0, Curso: "RAIZ"}}, Cantidad_Alumnos: 0, Cantidad_Tutores: 0}
+var arbolCursos *AVLTree.AVLTree = &AVLTree.AVLTree{Root: nil}
+var loggeado_estudiante string = ""
 
 func clearScreen() {
 	switch runtime.GOOS {
@@ -75,6 +81,7 @@ func Login() {
 		AdminMenu()
 	} else if doubleList.Find(usuario, password) {
 		fmt.Println("Bienvenido alumno ", usuario)
+		loggeado_estudiante = usuario
 		pressEnterToContinue()
 		StudentMenu()
 	} else {
@@ -108,12 +115,53 @@ func AdminMenu() {
 		case 2:
 			StudentsLoadCSV()
 		case 3:
-			fmt.Println("Se cargo los cursos")
+			ClassLoadCSV()
 		case 4:
 			ControlEstudiantes()
 		case 5:
-			fmt.Println("Mis Reportes")
+			Reports()
 		case 6:
+			exit = true
+		}
+
+	}
+}
+
+func Reports() {
+	opt := 0
+	exit := false
+	for !exit {
+		clearScreen()
+		fmt.Println("═══════════════════════════════════════════════════════════════════")
+		fmt.Println("||                   	MENU DE REPORTES                          ||")
+		fmt.Println("||                                                               ||")
+		fmt.Println("||              1.- Reporte de Alumnos                           ||")
+		fmt.Println("||              2.- Reporte de Tutores                           ||")
+		fmt.Println("||              3.- Reporte de Asignacion                        ||")
+		fmt.Println("||              4.- Reporte de Cursos                            ||")
+		fmt.Println("||              5.- Salir                                        ||")
+		fmt.Println("||                                                               ||")
+		fmt.Println("===================================================================")
+		fmt.Print("               Ingrese opcion: ")
+		fmt.Scanln(&opt)
+		switch opt {
+		case 1:
+			doubleList.Reporte()
+			pressEnterToContinue()
+			exit = true
+		case 2:
+			circularList.Reportev2()
+			pressEnterToContinue()
+			exit = true
+		case 3:
+			matrizDispersa.Reporte("Matriz.jpg")
+			pressEnterToContinue()
+			exit = true
+		case 4:
+			arbolCursos.Graficar()
+			pressEnterToContinue()
+			exit = true
+		case 5:
 			exit = true
 		}
 
@@ -137,11 +185,44 @@ func StudentMenu() {
 		fmt.Scanln(&opt)
 		switch opt {
 		case 1:
-			fmt.Println("tutos disponibles")
+			circularList.Show()
+			pressEnterToContinue()
 		case 2:
-			fmt.Println("asignacion")
+			AsignarCurso()
 		case 3:
 			exit = true
+		}
+
+	}
+}
+
+func AsignarCurso() {
+	opcion := ""
+	salir := false
+	for !salir {
+		fmt.Println("Teclee el codigo del curso: ")
+		fmt.Scanln(&opcion)
+		//Iria el primer If del Arbol (pendiente)
+		if arbolCursos.Busqueda(opcion) {
+			if circularList.Find(opcion) {
+				TutorBuscado := circularList.FindTutor(opcion)
+				estudiante, err := strconv.Atoi(loggeado_estudiante)
+				if err != nil {
+					break
+				}
+				matrizDispersa.Insertar_Elemento(estudiante, TutorBuscado.Tutor.StudentID, opcion)
+				fmt.Println("Se asigno Correctamente....")
+				pressEnterToContinue()
+				break
+			} else {
+				fmt.Println("No hay tutores para ese curso....")
+				pressEnterToContinue()
+				break
+			}
+		} else {
+			fmt.Println("El curso no existe en el sistema")
+			pressEnterToContinue()
+			break
 		}
 
 	}
@@ -169,6 +250,19 @@ func StudentsLoadCSV() {
 	fmt.Print("          Nombre del Archivo CSV: ")
 	fmt.Scanln(&ruta)
 	doubleList.ReadCSV(ruta)
+	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
+	pressEnterToContinue()
+}
+
+func ClassLoadCSV() {
+	ruta := ""
+	clearScreen()
+	fmt.Println("=====================================================")
+	fmt.Println("||              CARGA DE CURSOS               ||")
+	fmt.Println("=====================================================")
+	fmt.Print("          Nombre del Archivo JSON: ")
+	fmt.Scanln(&ruta)
+	arbolCursos.LeerJson(ruta)
 	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
 	pressEnterToContinue()
 }
