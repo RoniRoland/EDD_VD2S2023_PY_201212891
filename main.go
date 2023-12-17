@@ -75,12 +75,12 @@ func Login() {
 	fmt.Print("               Password: ")
 	fmt.Scanln(&password)
 
-	if usuario == "admin" && password == "admin" {
+	if usuario == "ADMIN_201212891" && password == "Admin" {
 		fmt.Println("\n*****Sesion Iniciada Correctamente******")
 		pressEnterToContinue()
 		AdminMenu()
 	} else if doubleList.Find(usuario, password) {
-		fmt.Println("Bienvenido alumno ", usuario)
+		fmt.Println("\n*****Sesion Iniciada Correctamente Alumno ", usuario, "*******")
 		loggeado_estudiante = usuario
 		pressEnterToContinue()
 		StudentMenu()
@@ -174,7 +174,7 @@ func StudentMenu() {
 	for !exit {
 		clearScreen()
 		fmt.Println("═══════════════════════════════════════════════════════════════════")
-		fmt.Println("||                   	MENU ESTUDIANTE                           ||")
+		fmt.Println("||                   	MENU ESTUDIANTE                          ||")
 		fmt.Println("||                                                               ||")
 		fmt.Println("||              1.- Ver Tutores disponibles                      ||")
 		fmt.Println("||              2.- Asignarse a tutores                          ||")
@@ -200,9 +200,8 @@ func AsignarCurso() {
 	opcion := ""
 	salir := false
 	for !salir {
-		fmt.Println("Teclee el codigo del curso: ")
+		fmt.Print("\nIngresar el codigo del curso a asignarse: ")
 		fmt.Scanln(&opcion)
-		//Iria el primer If del Arbol (pendiente)
 		if arbolCursos.Busqueda(opcion) {
 			if circularList.Find(opcion) {
 				TutorBuscado := circularList.FindTutor(opcion)
@@ -211,16 +210,16 @@ func AsignarCurso() {
 					break
 				}
 				matrizDispersa.Insertar_Elemento(estudiante, TutorBuscado.Tutor.StudentID, opcion)
-				fmt.Println("Se asigno Correctamente....")
+				fmt.Println("\n***CURSO asignado CORRECTAMENTE***")
 				pressEnterToContinue()
 				break
 			} else {
-				fmt.Println("No hay tutores para ese curso....")
+				fmt.Println("\n No existen tutores para este curso!!!")
 				pressEnterToContinue()
 				break
 			}
 		} else {
-			fmt.Println("El curso no existe en el sistema")
+			fmt.Println("\n ERROR! El curso NO EXISTE en el sistema!!!")
 			pressEnterToContinue()
 			break
 		}
@@ -236,8 +235,8 @@ func TutorLoadCSV() {
 	fmt.Println("=====================================================")
 	fmt.Print("             Nombre del Archivo CSV: ")
 	fmt.Scanln(&ruta)
-	priorityQueue.LeerCSV(ruta)
-	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
+	rutaCompleta := ruta + ".csv"
+	priorityQueue.LeerCSV(rutaCompleta)
 	pressEnterToContinue()
 }
 
@@ -249,8 +248,8 @@ func StudentsLoadCSV() {
 	fmt.Println("=====================================================")
 	fmt.Print("          Nombre del Archivo CSV: ")
 	fmt.Scanln(&ruta)
-	doubleList.ReadCSV(ruta)
-	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
+	rutaCompleta := ruta + ".csv"
+	doubleList.ReadCSV(rutaCompleta)
 	pressEnterToContinue()
 }
 
@@ -262,8 +261,8 @@ func ClassLoadCSV() {
 	fmt.Println("=====================================================")
 	fmt.Print("          Nombre del Archivo JSON: ")
 	fmt.Scanln(&ruta)
-	arbolCursos.LeerJson(ruta)
-	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
+	rutaCompleta := ruta + ".json"
+	arbolCursos.LeerJson(rutaCompleta)
 	pressEnterToContinue()
 }
 

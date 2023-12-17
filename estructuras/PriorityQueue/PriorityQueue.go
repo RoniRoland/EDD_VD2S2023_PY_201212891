@@ -66,7 +66,7 @@ func (c *Queue) Dequeue() {
 func (c *Queue) LeerCSV(ruta string) {
 	file, err := os.Open(ruta)
 	if err != nil {
-		fmt.Println("No pude abrir el archivo")
+		fmt.Println("\nError! Archivo incorrecto")
 		return
 	}
 	defer file.Close()
@@ -80,7 +80,7 @@ func (c *Queue) LeerCSV(ruta string) {
 			break
 		}
 		if err != nil {
-			fmt.Println("No pude leer la linea del csv")
+			fmt.Println("\nError! Lineas del csv INCORRECTAS")
 			continue
 		}
 		if encabezado {
@@ -91,6 +91,7 @@ func (c *Queue) LeerCSV(ruta string) {
 		score, _ := strconv.Atoi(linea[3])
 		c.AddQue(studentID, linea[1], "0"+linea[2], score)
 	}
+	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
 }
 
 func (c *Queue) First_Queue() {

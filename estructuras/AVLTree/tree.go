@@ -3,7 +3,7 @@ package AVLTree
 import (
 	"EDD_VD2S2023_PY_201212891/estructuras/GenerarArchivos"
 	"encoding/json"
-	"log"
+	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -130,18 +130,19 @@ func (a *AVLTree) Busqueda(valor string) bool {
 func (a *AVLTree) LeerJson(ruta string) {
 	data, err := os.ReadFile(ruta)
 	if err != nil {
-		log.Fatal("Error al leer el archivo:", err)
+		fmt.Println("\nError! Archivo incorrecto")
 	}
 
 	var datos DatosCursos
 	err = json.Unmarshal(data, &datos)
 	if err != nil {
-		log.Fatal("Error al decodificar el JSON:", err)
+		fmt.Println("\nError! Lineas del JSON INCORRECTAS")
 	}
 
 	for _, curso := range datos.Cursos {
 		a.InsertarElemento(curso.Codigo)
 	}
+	fmt.Println("\n*********Archivo CARGADO EXITOSAMENTE********** ")
 }
 
 func (a *AVLTree) Graficar() {

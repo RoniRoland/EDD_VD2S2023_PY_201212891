@@ -63,13 +63,14 @@ func (l *CircularList) Add(studentID int, name string, class string, score int) 
 func (l *CircularList) Show() {
 	aux := l.Start
 	cont := 1
+	fmt.Println("═══════════════════════════════════════════════════════════════")
 	for cont <= l.Lenght {
-		fmt.Println("═══════════════════════════════════════════════════════════════")
-		fmt.Println(cont, ".- ", " ", aux.Tutor.Class, " -> ", aux.Tutor.Name)
-		fmt.Println("═══════════════════════════════════════════════════════════════")
+		fmt.Printf("             %d .-    Codigo del Curso: %s\n", cont, aux.Tutor.Class)
+		fmt.Printf("                      Tutor Asignado: %s\n", aux.Tutor.Name)
 		aux = aux.Next
 		cont++
 	}
+	fmt.Println("═══════════════════════════════════════════════════════════════")
 }
 
 func (l *CircularList) Find(class string) bool {
