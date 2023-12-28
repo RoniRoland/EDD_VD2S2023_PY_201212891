@@ -1,26 +1,49 @@
 package main
 
+import (
+	"Fase2/estructuras/ArbolB"
+	"Fase2/estructuras/tablaHash"
+)
+
+var tablaAlumnos *tablaHash.TablaHash
+
 func main() {
-	arbolitoB := &estructuras.ArbolB{Raiz: nil, Orden: 3}
-	arbolitoB.Insertar(6)
-	arbolitoB.Insertar(11)
-	arbolitoB.Insertar(5)
-	arbolitoB.Insertar(4)
-	arbolitoB.Insertar(8)
-	arbolitoB.Insertar(9)
-	arbolitoB.Insertar(12)
-	arbolitoB.Insertar(21)
-	arbolitoB.Insertar(14)
-	arbolitoB.Insertar(10)
-	arbolitoB.Insertar(19)
-	arbolitoB.Insertar(28)
-	arbolitoB.Insertar(3)
-	arbolitoB.Insertar(17)
-	arbolitoB.Insertar(32)
-	arbolitoB.Insertar(15)
-	arbolitoB.Insertar(16)
-	arbolitoB.Insertar(26)
-	arbolitoB.Insertar(27)
-	arbolitoB.Graficar()
-	arbolitoB.Buscar(17)
+	tablaAlumnos = &tablaHash.TablaHash{Tabla: make(map[int])}
+	app := fiber.New()
+	app.Use(cors.New())
+	app.Post("/login", validar)
+	app.listen(":4000")
+
+}
+
+func Validar(c *fiber.Ctx) error {
+	var usuario Peticiones.PeticionLogin
+	c.BodyParser(&usuario)
+	if usuario.UserName == "2012" {
+		if usuario.Password == "admin"{
+			return c.JSON(&fiber.Map{
+				"status": 200,
+				"message": "login correcto"
+				"rol": 1
+			})
+		}
+	} else {
+		if usuario.Tutor {
+			// buscar arbol b
+		} else {
+			// buscar en tabla hash
+			if tablaAlumnos.Buscar(usuario.UserName, usuario.Password) {
+				return c.JSON(&fiber.Map{
+					"status": 200,
+					"message": "login correcto"
+					"rol": 3,
+
+				})
+			}
+		}
+	}
+	return c.JSON(&fiber.Map{
+		"status": 400,
+		"message": "login incorrecto"
+	})
 }
