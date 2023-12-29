@@ -1,141 +1,113 @@
-package arbolMerkle
+package grafo
 
-import (
-	"backend/estructuras/Peticiones"
-	"encoding/hex"
-	"math"
-	"strconv"
-	"time"
+import "backend/estructuras/Peticiones"
 
-	"golang.org/x/crypto/sha3"
-)
-
-type ArbolMerkle struct {
-	RaizMerkle      *NodoMerkle
-	BloqueDeDatos   *NodoBloqueDatos
-	CantidadBloques int
+type Grafo struct {
+	Principal *NodoListaAdyacencia
 }
 
-func fechaActual() string {
-	now := time.Now()
-	formato := "02-01-2006::15:04:05"
-	fechahoraFormato := now.Format(formato) // 27-12-2023::12:02:40
-	return fechahoraFormato
-}
-
-func (a *ArbolMerkle) AgregarBloque(estado string, nombreLibro string, carnet int) {
-	nuevoRegistro := &InformacionBloque{Fecha: fechaActual(), Accion: estado, Nombre: nombreLibro, Tutor: carnet}
-	nuevoBloque := &NodoBloqueDatos{Valor: nuevoRegistro}
-	if a.BloqueDeDatos == nil {
-		a.BloqueDeDatos = nuevoBloque
-		a.CantidadBloques++
-	} else {
-		aux := a.BloqueDeDatos
+func (g *Grafo) insertarColumna(curso string, post string) {
+	nuevoNodo := &NodoListaAdyacencia{Valor: post}
+	if g.Principal != nil && curso == g.Principal.Valor {
+		g.insertarFila(post)
+		aux := g.Principal
 		for aux.Siguiente != nil {
 			aux = aux.Siguiente
 		}
-		nuevoBloque.Anterior = aux
-		aux.Siguiente = nuevoBloque
-		a.CantidadBloques++
-	}
-}
-
-func (a *ArbolMerkle) GenerarArbol() {
-	nivel := 1
-	for int(math.Pow(2, float64(nivel))) < a.CantidadBloques {
-		nivel++
-	}
-	for i := a.CantidadBloques; i < int(math.Pow(2, float64(nivel))); i++ {
-		a.AgregarBloque(strconv.Itoa(i), "nulo", 0)
-	}
-	/*
-		♫ -> ☼ -> ☼ -> ☼ -> ☼ -> nulo -> nulo -> nulo
-	*/
-	a.generarHash()
-}
-
-func (a *ArbolMerkle) generarHash() {
-	var arrayNodos []*NodoMerkle
-	aux := a.BloqueDeDatos
-	for aux != nil {
-		contanetacion := aux.Valor.Fecha + aux.Valor.Accion + aux.Valor.Nombre + strconv.Itoa(aux.Valor.Tutor)
-		encriptado := a.encriptarSha3(contanetacion)
-		nodoHoja := &NodoMerkle{Valor: encriptado, Bloque: aux}
-		arrayNodos = append(arrayNodos, nodoHoja)
-		aux = aux.Siguiente
-	}
-	a.RaizMerkle = a.crearArbol(arrayNodos)
-}
-
-func (a *ArbolMerkle) crearArbol(arrayNodos []*NodoMerkle) *NodoMerkle {
-	var auxNodos []*NodoMerkle
-	var raiz *NodoMerkle
-	if len(arrayNodos) == 2 {
-		encriptado := a.encriptarSha3(arrayNodos[0].Valor + arrayNodos[1].Valor)
-		raiz = &NodoMerkle{Valor: encriptado}
-		raiz.Izquierda = arrayNodos[0]
-		raiz.Derecha = arrayNodos[1]
-		return raiz
+		aux.Siguiente = nuevoNodo
 	} else {
-		for i := 0; i < len(arrayNodos); i += 2 {
-			encriptado := a.encriptarSha3(arrayNodos[i].Valor + arrayNodos[i+1].Valor)
-			nodoRaiz := &NodoMerkle{Valor: encriptado}
-			nodoRaiz.Izquierda = arrayNodos[i]
-			nodoRaiz.Derecha = arrayNodos[i+1]
-			auxNodos = append(auxNodos, nodoRaiz)
+		g.insertarFila(curso)
+		aux := g.Principal
+		for aux != nil {
+			if aux.Valor == curso {
+				break
+			}
+			aux = aux.Abajo
 		}
-		return a.crearArbol(auxNodos)
+		if aux != nil {
+			for aux.Siguiente != nil {
+				aux = aux.Siguiente
+			}
+			aux.Siguiente = nuevoNodo
+		}
 	}
 }
 
-func (a *ArbolMerkle) encriptarSha3(cadena string) string {
-	hash := sha3.New256()
-	hash.Write([]byte(cadena))
-	encriptacion := hex.EncodeToString(hash.Sum(nil))
-	return encriptacion
+func (g *Grafo) insertarFila(curso string) {
+	nuevoNodo := &NodoListaAdyacencia{Valor: curso}
+	if g.Principal == nil {
+		g.Principal = nuevoNodo
+	} else {
+		aux := g.Principal
+		for aux.Abajo != nil {
+			if aux.Valor == curso {
+				return
+			}
+			aux = aux.Abajo
+		}
+		aux.Abajo = nuevoNodo
+	}
 }
 
-/*******************************************/
-func (a *ArbolMerkle) Graficar() {
+func (g *Grafo) InsertarValores(curso string, post string) {
+	if g.Principal == nil {
+		//insertar Fila
+		g.insertarFila(curso)
+		//insertar Columna
+		g.insertarColumna(curso, post)
+	} else {
+		g.insertarColumna(curso, post)
+	}
+}
+
+func (g *Grafo) Reporte(nombre string) {
 	cadena := ""
-	nombre_archivo := "./arbolMerkle.dot"
-	nombre_imagen := "arbolMerkle.jpg"
-	if a.RaizMerkle != nil {
-		cadena += "digraph arbol { node [shape=box];"
-		cadena += a.retornarValoresArbol(a.RaizMerkle, 0)
-		cadena += "}"
+	nombre_archivo := "./" + nombre + ".dot"
+	nombre_imagen := nombre + ".jpg"
+	if g.Principal != nil {
+		cadena += "digraph grafoDirigido{ \n rankdir=LR; \n node [shape=box]; layout=neato; \n nodo" + g.Principal.Valor + "[label=\"" + g.Principal.Valor + "\"]; \n"
+		cadena += "node [shape = ellipse]; \n"
+		cadena += g.retornarValoresMatriz()
+		cadena += "\n}"
 	}
 	Peticiones.CrearArchivo(nombre_archivo)
 	Peticiones.EscribirArchivo(cadena, nombre_archivo)
 	Peticiones.Ejecutar(nombre_imagen, nombre_archivo)
 }
 
-func (a *ArbolMerkle) retornarValoresArbol(raiz *NodoMerkle, indice int) string {
+func (g *Grafo) retornarValoresMatriz() string {
 	cadena := ""
-	numero := indice + 1
-	if raiz != nil {
-		cadena += "\""
-		cadena += raiz.Valor[:20]
-		cadena += "\" [dir=back];\n"
-		if raiz.Izquierda != nil && raiz.Derecha != nil {
-			cadena += "\""
-			cadena += raiz.Valor[:20]
-			cadena += "\" -> "
-			cadena += a.retornarValoresArbol(raiz.Izquierda, numero)
-			cadena += "\""
-			cadena += raiz.Valor[:20]
-			cadena += "\" -> "
-			cadena += a.retornarValoresArbol(raiz.Derecha, numero)
-			cadena += "{rank=same" + "\"" + (raiz.Izquierda.Valor[:20]) + "\"" + " -> " + "\"" + (raiz.Derecha.Valor[:20]) + "\"" + " [style=invis]}; \n"
+	/*CREACION DE NODOS*/
+	aux := g.Principal.Abajo //Filas
+	aux1 := aux              //Columnas
+	/*CREACION DE NODOS CON LABELS*/
+	for aux != nil {
+		for aux1 != nil {
+			cadena += "nodo" + aux1.Valor + "[label=\"" + aux1.Valor + "\" ]; \n"
+			aux1 = aux1.Siguiente
+		}
+		if aux != nil {
+			aux = aux.Abajo
+			aux1 = aux
 		}
 	}
-	if raiz.Bloque != nil {
-		cadena += "\""
-		cadena += raiz.Valor[:20]
-		cadena += "\" -> "
-		cadena += "\""
-		cadena += raiz.Bloque.Valor.Fecha + "\n" + raiz.Bloque.Valor.Accion + "\n" + raiz.Bloque.Valor.Nombre + "\n" + strconv.Itoa(raiz.Bloque.Valor.Tutor)
-		cadena += "\" [dir=back];\n "
+	/*CONEXION DE NODOS*/
+	aux = g.Principal    //Filas
+	aux1 = aux.Siguiente //Columnas
+	/*CREACION DE NODOS CON LABELS*/
+	for aux != nil {
+		for aux1 != nil {
+			cadena += "nodo" + aux.Valor + " -> "
+			cadena += "nodo" + aux1.Valor + "[len=1.00]; \n"
+			aux1 = aux1.Siguiente
+		}
+		if aux.Abajo != nil {
+			aux = aux.Abajo
+			aux1 = aux.Siguiente
+		} else {
+			aux = aux.Abajo
+		}
 	}
+
 	return cadena
 }
