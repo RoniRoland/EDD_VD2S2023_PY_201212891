@@ -1,12 +1,6 @@
 package tablaHash
 
-import (
-	"encoding/csv"
-	"fmt"
-	"io"
-	"os"
-	"strconv"
-)
+import "strconv"
 
 type TablaHash struct {
 	Tabla       map[int]NodoHash
@@ -42,7 +36,7 @@ func (t *TablaHash) calculoIndice(carnet int) int {
 }
 
 func (t *TablaHash) capacidadTabla() {
-	auxCap := float64(t.Capacidad) * 0.6
+	auxCap := float64(t.Capacidad) * 0.7
 	if t.Utilizacion > int(auxCap) {
 		auxAnterior := t.Capacidad
 		t.Capacidad = t.nuevaCapacidad()
@@ -89,7 +83,7 @@ func (t *TablaHash) nuevoIndice(nuevoIndice int) int {
 	return nuevoPosicion
 }
 
-func (t *TablaHash) Insertar(carnet int, nombre string, password string) {
+func (t *TablaHash) Insertar(carnet int, nombre string, password string) { // cursos []string
 	indice := t.calculoIndice(carnet)
 	nuevoNodo := &NodoHash{Llave: indice, Persona: &Persona{Carnet: carnet, Nombre: nombre, Password: password}}
 	if indice < t.Capacidad {
@@ -153,31 +147,14 @@ func (t *TablaHash) Buscar(carnet string, password string) bool {
 	return false
 }
 
-func (t *TablaHash) LeerCSV(ruta string) {
-	file, err := os.Open(ruta)
-	if err != nil {
-		fmt.Println("No pude abrir el archivo")
-		return
+func (t *TablaHash) ConvertirArreglo() []NodoHash {
+	var arrays []NodoHash
+	if t.Utilizacion > 0 {
+		for i := 0; i < t.Capacidad; i++ {
+			if usuario, existe := t.Tabla[i]; existe {
+				arrays = append(arrays, usuario)
+			}
+		}
 	}
-	defer file.Close()
-
-	lectura := csv.NewReader(file)
-	lectura.Comma = ','
-	encabezado := true
-	for {
-		linea, err := lectura.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			fmt.Println("No pude leer la linea del csv")
-			continue
-		}
-		if encabezado {
-			encabezado = false
-			continue
-		}
-		valor, _ := strconv.Atoi(linea[0])
-		t.Insertar(valor, linea[1], "1234")
-	}
+	return arrays
 }
