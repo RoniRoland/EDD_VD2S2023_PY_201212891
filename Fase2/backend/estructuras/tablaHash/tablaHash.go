@@ -1,4 +1,4 @@
-package tablahash
+package tablaHash
 
 import (
 	"encoding/csv"
@@ -42,20 +42,18 @@ func (t *TablaHash) calculoIndice(carnet int) int {
 }
 
 func (t *TablaHash) capacidadTabla() {
-	auxCap := float64(t.Capacidad) * 0.7
+	auxCap := float64(t.Capacidad) * 0.6
 	if t.Utilizacion > int(auxCap) {
 		auxAnterior := t.Capacidad
 		t.Capacidad = t.nuevaCapacidad()
 		t.Utilizacion = 0
 		t.reInsertar(auxAnterior)
 	}
-
 }
-
 func (t *TablaHash) nuevaCapacidad() int {
 	contador := 0
 	a, b := 0, 1
-	for contador < 150 {
+	for contador < 100 {
 		contador++
 		if a > t.Capacidad {
 			return a
@@ -76,7 +74,7 @@ func (t *TablaHash) reInsertar(capacidadAnterior int) {
 }
 
 func (t *TablaHash) reCalculoIndice(carnet int, contador int) int {
-	nuevoIndice := t.calculoIndice(carnet) + (contador * contador)
+	nuevoIndice := t.calculoIndice(carnet) + (contador * contador) //5+4=9
 	return t.nuevoIndice(nuevoIndice)
 }
 

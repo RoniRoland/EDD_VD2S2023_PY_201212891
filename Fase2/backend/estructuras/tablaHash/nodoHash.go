@@ -1,4 +1,4 @@
-package tablahash
+package tablaHash
 
 type Persona struct {
 	Carnet   int
