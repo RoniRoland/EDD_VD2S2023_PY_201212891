@@ -106,8 +106,8 @@ func (a *ArbolB) Insertar(carnet int, nombre string, curso string, password stri
 /***************************************/
 func (a *ArbolB) Graficar(nombre string) {
 	cadena := ""
-	nombre_archivo := "./" + nombre + ".dot"
-	nombre_imagen := nombre + ".jpg"
+	nombre_archivo := "./Reporte/" + nombre + ".dot"
+	nombre_imagen := "./Reporte/" + nombre + ".jpg"
 	if a.Raiz != nil {
 		cadena += "digraph arbol { \nnode[shape=record]\n"
 		cadena += a.grafo(a.Raiz.Primero)
