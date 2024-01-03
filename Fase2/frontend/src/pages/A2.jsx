@@ -7,7 +7,7 @@ import '../styles/otros.css'
 function A2() {
     const reportes = (e) => {
         e.preventDefault();
-        window.open("/", "_self");
+        window.open("/principal/admin/reportes", "_self");
     };
     const cArchivos = (e) => {
         e.preventDefault();

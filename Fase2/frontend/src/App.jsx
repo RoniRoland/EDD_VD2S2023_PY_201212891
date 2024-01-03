@@ -13,6 +13,7 @@ import PublicacionTutor from "./pages/PublicacionTutor";
 import EstudianteCursos from "./pages/EstudianteCursos";
 import EstudianteLibros from "./pages/EstudianteLibros";
 import EstudiantePublicacion from "./pages/EstudiantePublicacion";
+import AdminReportes from "./pages/AdminReportes";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -31,6 +32,7 @@ function App() {
         <Route path="/principal/admin/cargar-archivos" element={<Administrador />} />
         <Route path="/principal/admin" element={<A2 />} />
         <Route path="/principal/admin/aceptar-libros" element={<AdminLibro />} />
+        <Route path="/principal/admin/reportes" element={<AdminReportes />} />
         <Route path="/principal/admin/alumnos" element={<TablaAlumnos />} />
 
       </Routes>
