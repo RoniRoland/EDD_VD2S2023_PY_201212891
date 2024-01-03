@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function LibrosAdmin() {
   const [contenidoPDF, setContenidoPDF] = useState("");
+
   const uploadFileTutor = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -37,9 +38,8 @@ function LibrosAdmin() {
     <div className="form-signin1">
       <div className="text-center">
         <form className="card card-body">
-          <h1 className="h3 mb-3 fw-normal">Administrador</h1>
+          <h1 className="display-4 fw-bold text-body-emphasis Menu-carga">Carga de Libros</h1>
           <br />
-          <h4 className="h3 mb-3 fw-normal">Cargar PDF</h4>
           <br />
           <div className="input-group mb-3">
             <label className="input-group-text">Cargar Tutores</label>

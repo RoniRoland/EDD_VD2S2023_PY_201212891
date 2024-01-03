@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import '../styles/otros.css'
 
 function Administrador() {
+
+    const [showSuccessAlertTutor, setShowSuccessAlertTutor] = useState(false);
+    const [showSuccessAlertAlumno, setShowSuccessAlertAlumno] = useState(false);
+    const [showSuccessAlertCurso, setShowSuccessAlertCurso] = useState(false);
+
     const reportes = (e) => {
         e.preventDefault();
         window.open("/principal/admin/alumnos", "_self");
@@ -41,6 +48,11 @@ function Administrador() {
         };
 
         reader.readAsText(file);
+        setShowSuccessAlertTutor(true);
+        setTimeout(() => {
+            setShowSuccessAlertTutor(false);
+        }, 5000);
+
     };
 
     const uploadFileAlumno = (event) => {
@@ -79,6 +91,11 @@ function Administrador() {
         };
 
         reader.readAsText(file);
+        setShowSuccessAlertAlumno(true);
+        setTimeout(() => {
+            setShowSuccessAlertAlumno(false);
+        }, 5000);
+
     };
 
     const parseCSV = (csvContent) => {
@@ -105,64 +122,74 @@ function Administrador() {
             });
         };
         reader.readAsText(e.target.files[0]);
+        setShowSuccessAlertCurso(true);
+        setTimeout(() => {
+            setShowSuccessAlertCurso(false);
+        }, 5000);
     };
 
     const salir = (e) => {
         e.preventDefault();
         console.log("Listo");
-        window.open("/", "_self");
+        window.open("/principal/admin", "_self");
     };
 
     return (
         <div className="form-signin1">
             <div className="text-center">
                 <form className="card card-body">
-                    <h1 className="h3 mb-3 fw-normal">Administrador</h1>
+                    <h1 className="display-4 fw-bold text-body-emphasis Menu-carga">Menu de Carga</h1>
                     <br />
-                    <h4 className="h3 mb-3 fw-normal">Cargar Archivos</h4>
                     <br />
-                    <div className="input-group mb-3">
-                        <label className="input-group-text">Cargar Tutores</label>
-                        <input
-                            className="form-control"
-                            id="inputGroupFile01"
-                            type="file"
+
+                    <h2 class="pb-2 border-bottom">Carga de Archivo de Tutores</h2>
+                    <div>
+                        <br />
+                        <input class="form-control form-control-lg" id="formFileLg" type="file"
                             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={uploadFileTutor}
-                        />
+                            onChange={uploadFileTutor} />
+                        {showSuccessAlertTutor && (
+                            <div className="alert alert-success" role="alert">
+                                ¡La carga del archivo de tutor fue exitosa!
+                            </div>
+                        )}
+
                     </div>
+
                     <br />
-                    <div className="input-group mb-3">
-                        <label className="input-group-text">Cargar Alumnos</label>
-                        <input
-                            className="form-control"
-                            id="inputGroupFile01"
-                            type="file"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={uploadFileAlumno}
-                        />
+                    <h2 class="pb-2 border-bottom">Carga de Archivo de Alumnos</h2>
+                    <div>
+                        <br />
+                        <input class="form-control form-control-lg" id="formFileLg" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            onChange={uploadFileAlumno} />
+                        {showSuccessAlertAlumno && (
+                            <div className="alert alert-success" role="alert">
+                                ¡La carga del archivo de alumno fue exitosa!
+                            </div>
+                        )}
+
                     </div>
+
                     <br />
-                    <div className="input-group mb-3">
-                        <label className="input-group-text">Cargar json</label>
-                        <input
-                            className="form-control"
-                            id="inputGroupFile02"
-                            type="file"
-                            accept="application/json"
-                            onChange={onChange1}
-                        />
+                    <h2 class="pb-2 border-bottom">Carga de Archivo de Cursos</h2>
+                    <div>
+                        <br />
+                        <input class="form-control form-control-lg" id="formFileLg" type="file" accept="application/json"
+                            onChange={onChange1} />
+                        {showSuccessAlertCurso && (
+                            <div className="alert alert-success" role="alert">
+                                ¡La carga del archivo de los Cursos fue exitosa!
+                            </div>
+                        )}
+
                     </div>
+
                     <br />
+
+
                     <center>
                         <button className="w-50 btn btn-outline-primary" onClick={reportes}>
-                            Tabla
-                        </button>
-                    </center>
-                    <br />
-                    <center>
-                        <button className="w-50 btn btn-outline-primary" onClick={reportes}>
-                            Alumnos
+                            Ver estudiantes Activos
                         </button>
                     </center>
                     <br />
@@ -171,7 +198,6 @@ function Administrador() {
                             Salir
                         </button>
                     </center>
-                    <p className="mt-5 mb-3 text-muted">EDD 201212891</p>
                     <br />
                 </form>
             </div>

@@ -11,13 +11,18 @@ function TablaAlumnos() {
     peticion();
   }, []);
 
+  const salir = (e) => {
+    e.preventDefault();
+    console.log("Listo");
+    window.open("/principal/admin/cargar-archivos", "_self");
+  };
+
   return (
     <div className="form-signin1">
       <div className="text-center">
         <form className="card card-body">
-          <h1 className="h3 mb-3 fw-normal">Administrador</h1>
-          <br />
-          <h4 className="h3 mb-3 fw-normal">Cargar Archivos</h4>
+          <h1 className="display-4 fw-bold text-body-emphasis Menu-carga">Estudiantes Activos</h1>
+
           <br />
           <br />
           <table className="table table-dark table-striped">
@@ -27,6 +32,9 @@ function TablaAlumnos() {
                 <th scope="col">Posicion</th>
                 <th scope="col">Carnet </th>
                 <th scope="col">Password </th>
+                <th scope="col">Curso 1 </th>
+                <th scope="col">Curso 2 </th>
+                <th scope="col">Curso 3 </th>
               </tr>
             </thead>
             <tbody>
@@ -39,6 +47,7 @@ function TablaAlumnos() {
                         <td>{element.Llave}</td>
                         <td>{element.Persona.Carnet}</td>
                         <td>{element.Persona.Password}</td>
+                        <td>{element.Persona.Curso}</td>
                       </tr>
                     </>
                   );
@@ -47,10 +56,18 @@ function TablaAlumnos() {
             </tbody>
           </table>
           <br />
-          <p className="mt-5 mb-3 text-muted">EDD 201700918</p>
+          <br />
+          <center>
+            <button className="w-50 btn btn-outline-success" onClick={salir}>
+              Salir
+            </button>
+          </center>
+          <br />
+          <p className="mt-5 mb-3 text-muted">EDD 201212891</p>
           <br />
         </form>
       </div>
+
     </div>
   );
 }
