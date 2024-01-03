@@ -158,3 +158,34 @@ func (t *TablaHash) ConvertirArreglo() []NodoHash {
 	}
 	return arrays
 }
+
+func (t *TablaHash) BuscarSesion(carnet string) *Persona {
+	valTemp, err := strconv.Atoi(carnet)
+	if err != nil {
+		return nil
+	}
+	indice := t.calculoIndice(valTemp)
+	if indice < t.Capacidad {
+		if usuario, existe := t.Tabla[indice]; existe {
+			if usuario.Persona.Carnet == valTemp {
+				return usuario.Persona
+			} else {
+				contador := 1
+				indice = t.reCalculoIndice(valTemp, contador)
+				for {
+					if usuario, existe := t.Tabla[indice]; existe {
+						if usuario.Persona.Carnet == valTemp {
+							return usuario.Persona
+						} else {
+							contador++
+							indice = t.reCalculoIndice(valTemp, contador)
+						}
+					} else {
+						return nil
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
