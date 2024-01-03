@@ -251,13 +251,47 @@ A continuación, se presenta una descripción del código:
 - ConvertirArreglo() []NodoHash: Convierte la tabla hash a un arreglo de nodos.
 
 ## Main
-A continuación, se presenta una descripción del código main.
-### main.go
-- Persona: Estructura que representa a una persona con un carné, nombre, contraseña y cursos.
 
-- NodoHash: Estructura de un nodo de la tabla hash que contiene una llave y una referencia a una persona.
+Este archivo main.go es el punto de entrada principal de la aplicación en Golang. Contiene la inicialización del servidor web usando el framework Vite, así como la definición de rutas y la lógica asociada. Aquí hay una descripción general de las secciones clave del código.
+
+### main.go
+
+#### Inicialización de Estructuras de Datos
+
+- tablaAlumnos: Una instancia de la tabla hash utilizada para almacenar información de los alumnos.
+- listaSimple: Una instancia de la lista simple utilizada para almacenar información de los tutores.
+- arbolTutor: Una instancia del árbol B utilizado para almacenar información de los tutores.
+- grafoCursos: Una instancia del grafo utilizado para almacenar información de los cursos.
+- arbolLibros: Árbol Merkle para gestionar la información de libros.
+
+- Función main: Se inicializan las estructuras de datos globales (tablaAlumnos, listaSimple, arbolTutor, grafoCursos, arbolLibros). Se crea una instancia de la aplicación Fiber.
+
+#### Definición de Rutas y Funciones de Control
+
+- Rutas HTTP y Funciones de Control:
+
+    - Se definen diversas rutas para manejar las peticiones HTTP.
+    - Algunas rutas corresponden a funciones específicas como Validar, RegistrarAlumno, RegistrarTutor, TablaAlumnos, etc.
+    - Estas funciones gestionan las operaciones relacionadas con la autenticación, registro de alumnos y tutores, consulta de datos, y generación de reportes.
+
+- Operaciones de Autenticación y Registro:
+
+    - La función Validar realiza la autenticación de usuarios (administrador, tutores y alumnos) utilizando las estructuras de datos definidas.
+    - Funciones como RegistrarAlumno, RegistrarTutor y RegistrarCursos manejan el registro de alumnos, tutores y cursos respectivamente.
+
+- Gestión de Libros y Publicaciones:
+
+    - Las funciones GuardarLibro, ObtenerLibrosAdmin, GuardarPublicacion, RegistrarDecision, CursosAlumnos, ObetnerLibrosAlumno y ObetnerPublicacionessAlumno gestionan las operaciones relacionadas con la administración de libros y publicaciones.
+
+- Generación de Reportes:
+
+    - Las funciones ReporteArbolB, ReporteGrafo y ReporteMerkle generan y devuelven reportes gráficos de las estructuras de datos utilizadas (Árbol B, Grafo, Árbol Merkle).
+
+- Escucha del Servidor:
+
+    - La función app.Listen(":4000") inicia el servidor y lo pone a la escucha en el puerto 4000.
 
 # Conclusiones
 
-El programa es una implementación de diversas estructuras de datos para gestionar información relacionada con estudiantes, tutores y cursos. Se utilizan listas doblemente enlazadas, listas circulares, matrices dispersas y colas de prioridad. Cada estructura se adapta a un propósito específico: las listas para almacenar información de tutores, las matrices para representar relaciones entre tutores y estudiantes, y la cola de prioridad para gestionar la evaluación de tutores según su rendimiento. La modularidad y eficiencia de estas estructuras permiten una gestión efectiva de los datos. La interfaz con archivos CSV facilita la entrada y salida de información. En conjunto, el programa proporciona una herramienta versátil para el manejo y evaluación de tutores y estudiantes.
+El programa es una implementación de diversas estructuras de datos para gestionar información relacionada con estudiantes, tutores y cursos. El código backend exhibe una estructura organizada y modular, destacando la eficiente gestión de usuarios mediante una tabla hash y la implementación de un árbol B para almacenar información de tutores, incluyendo libros y publicaciones. La representación de relaciones entre cursos y publicaciones se logra de manera eficaz con un grafo dirigido. Además, se garantiza la seguridad mediante el uso de la función hash SHA-256 para almacenar contraseñas. La generación de reportes gráficos y la interfaz HTTP a través de Fiber completan una implementación sólida y funcional. Y el codigo Frontend se muestra toda la informacion obtenida del backend de manera visual.
 
