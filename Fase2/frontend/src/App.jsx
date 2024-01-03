@@ -10,7 +10,6 @@ import LibrosAdmin from "./pages/LibrosAdmin";
 import A2 from "./pages/A2";
 import AdminLibro from "./pages/AdminLibro";
 import PublicacionTutor from "./pages/PublicacionTutor";
-import EstudianteCursos from "./pages/EstudianteCursos";
 import EstudianteLibros from "./pages/EstudianteLibros";
 import EstudiantePublicacion from "./pages/EstudiantePublicacion";
 import AdminReportes from "./pages/AdminReportes";
@@ -23,7 +22,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/principal/estudiante" element={<Estudiante />} />
-        <Route path="/principal/estudiante/ver-cursos" element={<EstudianteCursos />} />
         <Route path="/principal/estudiante/ver-libros" element={<EstudianteLibros />} />
         <Route path="/principal/estudiante/ver-publicaciones" element={<EstudiantePublicacion />} />
         <Route path="/principal/tutor" element={<Tutor />} />

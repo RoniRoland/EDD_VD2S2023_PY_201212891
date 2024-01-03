@@ -3,20 +3,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import '../styles/otros.css'
 
 function Estudiante() {
-    const vCursos = (e) => {
-        e.preventDefault();
-        window.open("/principal/estudiante/ver-cursos", "_self");
-    };
     const vLibros = (e) => {
         e.preventDefault();
+        localStorage.setItem("cursos", JSON.stringify(cursos));
         window.open("/principal/estudiante/ver-libros", "_self");
     };
     const vPublicaciones = (e) => {
         e.preventDefault();
+        localStorage.setItem("cursos", JSON.stringify(cursos));
         window.open("/principal/estudiante/ver-publicaciones", "_self");
     };
     const lPrincipal = (e) => {
         e.preventDefault();
+        localStorage.clear();
         window.open("/", "_self");
     };
     const [cursos, setCursos] = useState([]);
@@ -76,12 +75,11 @@ function Estudiante() {
                 <br />
                 <p class="lead mb-4">Bienvenido Estudiante, en este menu puedes ver los cursos asignados y las publicaciones de los tutores.
                 </p>
-                <p class="lead mb-4">Tambien puedes ver y descargar los libros subidos al sistema por los tutores.
+                <p class="lead mb-4">Tambien puedes ver los libros subidos al sistema por los tutores de sus respectivos cursos.
                 </p>
                 <br />
                 <br />
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-                    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3" onClick={vCursos}>Ver Cursos</button>
                     <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3" onClick={vLibros}>Ver Libros</button>
                     <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3" onClick={vPublicaciones}>Ver Publicaciones</button>
                     <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3" onClick={lPrincipal}>Login Principal</button>

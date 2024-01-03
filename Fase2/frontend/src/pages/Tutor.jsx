@@ -13,6 +13,7 @@ function Tutor() {
   };
   const lPrincipal = (e) => {
     e.preventDefault();
+    localStorage.clear();
     window.open("/", "_self");
   };
   return (

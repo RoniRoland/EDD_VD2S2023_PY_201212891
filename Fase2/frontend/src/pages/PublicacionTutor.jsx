@@ -29,7 +29,6 @@ function PublicacionTutor() {
     const salir = (e) => {
         e.preventDefault();
         console.log("Listo");
-        localStorage.clear();
         window.open("/principal/tutor", "_self");
     };
 
