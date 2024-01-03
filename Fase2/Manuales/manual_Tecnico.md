@@ -98,130 +98,166 @@ A continuación, se describe brevemente cada componente del código:
 - ### Lista Enlazada
     En el siguiente archivo listaEnlazada.go, se encuentra la implementación de una lista simple, utilizada para almacenar resultados de búsquedas en el árbol B. La lista simple ofrece operaciones básicas como inserción y recorrido, contribuyendo a la manipulación eficiente de los datos recuperados durante las búsquedas.
 
-## Matriz Dispersa
-### Matriz.go
-- `Matriz`
-Contiene la estructura general de la matriz dispersa, con funciones para buscar columnas y filas, insertar columnas y filas, e insertar elementos en la matriz.
+- ### NodoB
+    El archivo nodoB.go define la estructura NodoB, que representa un nodo del árbol B. Este nodo almacena información sobre un tutor y enlaces a otros nodos.
 
-- `buscarColumna(carnet_tutor int, curso string) *NodoMatriz`
-Busca una columna específica en la matriz dispersa.
+    -  #### Estructura NodoB
+        - Tutor: Un puntero a la estructura Tutores, que contiene información sobre un tutor.
+        - Siguiente: Un puntero al siguiente nodo en la rama del árbol B.
+        - Anterior: Un puntero al nodo anterior en la rama del árbol B.
+        - Izquierdo: Un puntero al nodo hijo izquierdo en la rama del árbol B.
+        - Derecho: Un puntero al nodo hijo derecho en la rama del árbol B.
 
-- `buscarFila(carnet_estudiante int) *NodoMatriz`
-Busca una fila específica en la matriz dispersa.
+    - #### Función Insertar
+        - Esta función se utiliza para insertar un nuevo nodo en una rama del árbol B.
+        - Implementa la lógica necesaria para mantener el orden y equilibrio del árbol B.
 
-- `insertarColumna(nuevoNodo *NodoMatriz, nodoRaiz *NodoMatriz) *NodoMatriz`
-Inserta una nueva columna en la matriz dispersa.
+- ### RamaB
+    El archivo ramaB.go define la estructura RamaB, que representa una rama del árbol B.
 
-- `nuevaColumna(x int, carnet_Tutor int, curso string) *NodoMatriz`
-Crea un nuevo nodo de columna y lo inserta en la matriz dispersa.
+    - #### Estructura RamaB
+        - Primero: Un puntero al primer nodo en la rama.
+        - Hoja: Un booleano que indica si la rama es una hoja.
+        - Contador: Un entero que lleva el conteo de nodos en la rama.
 
-- `insertarFila(nuevoNodo *NodoMatriz, nodoRaiz *NodoMatriz) *NodoMatriz`
-Inserta una nueva fila en la matriz dispersa.
+   - #### Función Insertar
+        - Esta función se encarga de insertar un nuevo nodo en la rama del árbol B.
+        - Implementa la lógica para manejar la inserción en diferentes casos según el estado de la rama y el valor del nuevo nodo.
 
-- `nuevaFila(y int, carnet_estudiante int, curso string) *NodoMatriz`
-Crea un nuevo nodo de fila y lo inserta en la matriz dispersa.
+## Árbol Merkle
 
-- `Insertar_Elemento(carnet_estudiante int, carnet_tutor int, curso string)`
-Inserta un elemento en la matriz dispersa.
+A continuación, se presenta un resumen de las funciones y estructuras implementadas:
 
-- `Reporte(nombre string)`
-Genera un archivo de visualización en formato DOT y crea una imagen de la matriz dispersa.
+### ArbolMerkle.go
+- Estructura ArbolMerkle
+    - RaizMerkle: Puntero a la raíz del árbol Merkle.
+    - BloqueDeDatos: Puntero al primer bloque de datos enlazado.
+    - CantidadBloques: Número de bloques de datos en la cadena.
 
-### nodoMatriz.go
-- **Dato:** Representa la información almacenada en cada celda de la matriz. Contiene campos como Carnet_Tutor para el identificador del tutor, Carnet_Estudiante para el identificador del estudiante y Curso para el curso asociado.
+- Función AgregarBloque
+    - Agrega un nuevo bloque de datos a la cadena, indicando el estado, nombre del libro y carnet del tutor.
 
-- **NodoMatriz:** Define un nodo para la matriz dispersa. Contiene punteros a nodos adyacentes (siguiente, anterior, arriba y abajo), así como coordenadas (posición X e Y) en la matriz. Además, tiene un puntero a la estructura Dato que almacena la información específica de la celda.
+- Función GenerarArbol
+    - Genera el árbol Merkle a partir de los bloques de datos existentes.
+
+- Función generarHash
+    - Crea una lista de nodos hoja del árbol Merkle y luego construye el árbol recursivamente.
+
+- Función encriptarSha3
+    - Aplica la función hash SHA-3 a una cadena y devuelve la representación hexadecimal del resultado.
+
+- Función Graficar
+    - Genera un archivo DOT para representar gráficamente el árbol Merkle y ejecuta el comando para generar la imagen.
+
+- Función retornarValoresArbol
+    - Retorna una cadena que representa las conexiones entre nodos del árbol Merkle para su visualización gráfica.
+
+### NodoMerkle.go
+- Estructura NodoMerkle
+    - Izquierda: Puntero al hijo izquierdo del nodo.
+    - Derecha: Puntero al hijo derecho del nodo.
+    - Bloque: Puntero al bloque de datos asociado al nodo.
+    - Valor: Valor hash del nodo.
+
+- Estructura InformacionBloque
+    - Fecha: Fecha y hora del bloque.
+    - Accion: Acción realizada en el bloque (p. ej., "nulo" o "modificación").
+    - Nombre: Nombre del libro asociado al bloque.
+    - Tutor: Carnet del tutor asociado al bloque.
+
+- Estructura NodoBloqueDatos
+    - Siguiente: Puntero al siguiente bloque de datos.
+    - Anterior: Puntero al bloque de datos anterior.
+    - Valor: Puntero a la información del bloque.
 
 ## Cola Prioridad
-### PriorityQueue.go
-- `AddQue(studentID int, name string, class string, score int)`
-Añade un nuevo tutor a la cola de prioridad según su puntaje.
+Aquí se presenta un resumen de las funciones y estructuras implementadas:
+### nodoGrafo.go
 
-- `Dequeue()`
-Elimina al primer tutor de la cola.
+- Estructura NodoListaAdyacencia
+    - Siguiente: Puntero al siguiente nodo en la misma columna.
+    - Abajo: Puntero al siguiente nodo en la misma fila.
+    - Valor: Valor asociado al nodo.
 
-- `LeerCSV(ruta string)`
-Lee datos desde un archivo CSV y añade tutores a la cola de prioridad.
+- Estructura PeticionGrafo
+    - NombreArchivo: Nombre del archivo asociado a la petición.
 
-- `First_Queue()`
-Muestra en consola la información del tutor en la cima de la cola.
+### grafo.go
 
-- `Queue`
-Estructura principal que representa la cola de prioridad, con un puntero al primer nodo y un contador de longitud.
+- Estructura Grafo
+    - Principal: Puntero al nodo principal (cabeza) del grafo.
 
-- `PriorityQueueNode`
-Estructura que representa cada nodo en la cola de prioridad, conteniendo la información del tutor, un puntero al siguiente nodo, y la prioridad asignada según el puntaje.
+- Función insertarColumna
+    - Inserta un nuevo nodo en la columna especificada.
 
-- `First_Queue()`
-Muestra en consola la información del tutor en la cima de la cola.
+- Función insertarFila
+    - Inserta un nuevo nodo en la fila especificada.
 
-### node.go
-- **Tutor:** Representa la información asociada a un tutor, incluyendo campos como StudentID para el identificador del estudiante, Name para el nombre del tutor, Class para la clase asociada y Score para la puntuación del tutor.
+- Función InsertarValores
+    - Inserta valores en el grafo, creando nodos en la fila y columna correspondientes.
 
-- **QueueNode:** Define un nodo para la cola de prioridad. Contiene un puntero a la estructura Tutor que almacena la información del tutor, así como un puntero al siguiente nodo en la cola (Next). Además, tiene un campo Priority que indica la prioridad del tutor en la cola.
+- Función Reporte
+    - Genera un archivo DOT para representar gráficamente el grafo dirigido y ejecuta el comando para generar la imagen.
 
-## Árbol AVL
-### treeNode.go
-- Alumno
-Estructura que representa la información de un alumno en el contexto del árbol AVL, con campos para el ID del estudiante y el nombre.
+- Función retornarValoresMatriz
+    - Retorna una cadena que representa las conexiones entre nodos del grafo para su visualización gráfica.
 
-- AVLNode
-Estructura que representa un nodo en el árbol AVL, con un puntero al alumno, a los nodos hijo izquierdo y derecho, y la altura del nodo.
 
-### tree.go
-- `AVLTree`
-Estructura principal que representa el árbol AVL, con un puntero a la raíz del árbol.
+## Peticiones
+### generar.go
+- CrearArchivo(nombre_archivo string): Esta función crea un archivo con el nombre proporcionado si no existe previamente.
 
-- `getHeight(node *AVLNode) int`
-Función que devuelve la altura de un nodo dado. Utilizada para equilibrar el árbol.
+- EscribirArchivo(contenido string, nombre_archivo string): Escribe el contenido proporcionado en el archivo especificado.
 
-- `calculateBalanceFactor(node *AVLNode) int`
-Función que calcula el factor de equilibrio de un nodo, determinado por la diferencia entre las alturas de los nodos hijo izquierdo y derecho.
+- Ejecutar(nombre_imagen string, archivo string): Ejecuta el comando dot para generar una imagen (formato jpg) a partir de un archivo de definición de grafo en formato DOT. Utiliza el programa Graphviz para realizar esta conversión.
 
-- `rotateRight(node *AVLNode) *AVLNode`
-Función que realiza una rotación a la derecha en un nodo del árbol AVL para mantener su equilibrio.
+### peticion.go
+**Estructuras de Peticiones**
 
-- `rotateLeft(node *AVLNode) *AVLNode`
-Función que realiza una rotación a la izquierda en un nodo del árbol AVL para mantener su equilibrio.
+- PeticionLogin: Representa la petición de inicio de sesión con nombre de usuario, contraseña y si el usuario es un tutor.
+- PeticionRegistroTutor: Representa la petición de registro de un tutor con carné, nombre, curso y contraseña.
+- PeticionRegistroAlumno: Representa la petición de registro de un alumno con carné, nombre, contraseña y cursos.
+- PeticionCursos: Representa la petición de obtener la lista de cursos.
+- Cursos: Estructura que contiene el código de un curso y una lista de posts asociados.
+- PeticionLibro: Representa la petición de un usuario para agregar un libro con carné, nombre y contenido.
+- PeticionPublicacion: Representa la petición de un usuario para realizar una publicación con carné y contenido.
 
-- `insert(node *AVLNode, studentID int, name string) *AVLNode`
-Función que inserta un nuevo nodo en el árbol AVL, manteniendo su equilibrio mediante rotaciones.
+## Tabla Hash
+A continuación, se presenta una descripción del código:
+### nodoHash.go
+- Persona: Estructura que representa a una persona con un carné, nombre, contraseña y cursos.
 
-- `Insert(studentID int, name string)`
-Función externa que facilita la inserción de un nuevo alumno en el árbol AVL.
+- NodoHash: Estructura de un nodo de la tabla hash que contiene una llave y una referencia a una persona.
 
-- `inOrderTraversal(node *AVLNode)`
-Función que realiza un recorrido en orden del árbol AVL e imprime los alumnos en consola.
+### tablaHash.go
+- TablaHash: Estructura principal que representa la tabla hash. Contiene un mapa que asigna enteros a nodos hash, la capacidad de la tabla y la cantidad de elementos utilizados.
 
-- `Insertar_Elemento(carnet_estudiante int, nombre_estudiante string)`
-Función que proporciona una interfaz externa para la inserción de estudiantes en el árbol AVL.
+- calculoIndice(carnet int) int: Calcula el índice en la tabla hash utilizando el carné.
+
+- capacidadTabla(): Verifica y ajusta la capacidad de la tabla si se supera un umbral de utilización.
+
+- nuevaCapacidad() int: Calcula una nueva capacidad para la tabla en caso de ajuste.
+
+- reInsertar(capacidadAnterior int): Reinserta los nodos en la tabla hash con la nueva capacidad después de un ajuste.
+
+- reCalculoIndice(carnet int, contador int) int: Realiza el reajuste del índice en caso de colisión.
+
+- nuevoIndice(nuevoIndice int) int: Calcula un nuevo índice ajustado a la capacidad de la tabla.
+
+- Insertar(carnet int, nombre string, password string): Inserta una persona en la tabla hash.
+
+- Buscar(carnet string, password string) bool: Busca una persona en la tabla hash por carné y contraseña.
+
+- ConvertirArreglo() []NodoHash: Convierte la tabla hash a un arreglo de nodos.
 
 ## Main
+A continuación, se presenta una descripción del código main.
 ### main.go
-- `main:` Función principal que presenta un menú de inicio de sesión y permite acceder al sistema como administrador o estudiante.
+- Persona: Estructura que representa a una persona con un carné, nombre, contraseña y cursos.
 
-- `Login:` Gestiona el proceso de inicio de sesión solicitando usuario y contraseña. Permite iniciar sesión como administrador o estudiante.
-
-- `AdminMenu:` Presenta el menú de opciones para el usuario administrador, que incluye la carga de datos, control de estudiantes y generación de reportes.
-
-- `Reports:` Ofrece opciones para generar diferentes tipos de informes sobre alumnos, tutores, asignaciones y cursos.
-
-- `StudentMenu:` Muestra las opciones disponibles para un estudiante, como ver tutores disponibles y asignarse a un tutor.
-
-- `AsignarCurso:` Permite a un estudiante asignarse a un curso y tutor específico.
-
-- `TutorLoadCSV:` Carga tutores desde un archivo CSV a la cola de prioridad.
-
-- `StudentsLoadCSV:` Carga estudiantes desde un archivo CSV a la lista doblemente enlazada.
-
-- `ClassLoadCSV:` Carga cursos desde un archivo JSON al árbol AVL de cursos.
-
-- `ControlEstudiantes:` Muestra un menú de control de estudiantes para aceptar o rechazar tutores basándose en su puntaje.
-
-- `clearScreen:` Limpia la pantalla de la consola para mejorar la presentación de los menús.
-
-- `pressEnterToContinue:` Muestra un mensaje y espera que el usuario presione Enter para continuar.
+- NodoHash: Estructura de un nodo de la tabla hash que contiene una llave y una referencia a una persona.
 
 # Conclusiones
 
 El programa es una implementación de diversas estructuras de datos para gestionar información relacionada con estudiantes, tutores y cursos. Se utilizan listas doblemente enlazadas, listas circulares, matrices dispersas y colas de prioridad. Cada estructura se adapta a un propósito específico: las listas para almacenar información de tutores, las matrices para representar relaciones entre tutores y estudiantes, y la cola de prioridad para gestionar la evaluación de tutores según su rendimiento. La modularidad y eficiencia de estas estructuras permiten una gestión efectiva de los datos. La interfaz con archivos CSV facilita la entrada y salida de información. En conjunto, el programa proporciona una herramienta versátil para el manejo y evaluación de tutores y estudiantes.
+
