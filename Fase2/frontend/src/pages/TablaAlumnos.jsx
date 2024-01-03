@@ -25,7 +25,7 @@ function TablaAlumnos() {
 
           <br />
           <br />
-          <table className="table table-dark table-striped">
+          <table className="table table-dark table-bordered border-info-subtle table-striped">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -47,7 +47,9 @@ function TablaAlumnos() {
                         <td>{element.Llave}</td>
                         <td>{element.Persona.Carnet}</td>
                         <td>{element.Persona.Password}</td>
-                        <td>{element.Persona.Curso}</td>
+                        <td>{element.Persona.Cursos[0]}</td>
+                        <td>{element.Persona.Cursos[1]}</td>
+                        <td>{element.Persona.Cursos[2]}</td>
                       </tr>
                     </>
                   );
