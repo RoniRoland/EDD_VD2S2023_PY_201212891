@@ -62,7 +62,7 @@ func (t *TablaHash) reInsertar(capacidadAnterior int) {
 	t.Tabla = make(map[int]NodoHash)
 	for i := 0; i < capacidadAnterior; i++ {
 		if usuario, existe := auxTabla[i]; existe {
-			t.Insertar(usuario.Persona.Carnet, usuario.Persona.Nombre, usuario.Persona.Password)
+			t.Insertar(usuario.Persona.Carnet, usuario.Persona.Nombre, usuario.Persona.Password, usuario.Persona.Cursos)
 		}
 	}
 }
@@ -83,9 +83,9 @@ func (t *TablaHash) nuevoIndice(nuevoIndice int) int {
 	return nuevoPosicion
 }
 
-func (t *TablaHash) Insertar(carnet int, nombre string, password string) { // cursos []string
+func (t *TablaHash) Insertar(carnet int, nombre string, password string, cursos []string) { // cursos []string
 	indice := t.calculoIndice(carnet)
-	nuevoNodo := &NodoHash{Llave: indice, Persona: &Persona{Carnet: carnet, Nombre: nombre, Password: password}}
+	nuevoNodo := &NodoHash{Llave: indice, Persona: &Persona{Carnet: carnet, Nombre: nombre, Password: password, Cursos: cursos}}
 	if indice < t.Capacidad {
 		if _, existe := t.Tabla[indice]; !existe {
 			t.Tabla[indice] = *nuevoNodo

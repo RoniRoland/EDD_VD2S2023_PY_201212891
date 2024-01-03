@@ -93,7 +93,7 @@ func RegistrarAlumno(c *fiber.Ctx) error {
 	var alumno Peticiones.PeticionRegistroAlumno
 	c.BodyParser(&alumno)
 	fmt.Println(alumno)
-	tablaAlumnos.Insertar(alumno.Carnet, alumno.Nombre, SHA256(alumno.Password)) //alumno.Cursos
+	tablaAlumnos.Insertar(alumno.Carnet, alumno.Nombre, SHA256(alumno.Password), alumno.Cursos) //alumno.Cursos
 	return c.JSON(&fiber.Map{
 		"status":  200,
 		"Arreglo": tablaAlumnos.ConvertirArreglo(),
@@ -145,13 +145,14 @@ func RegistrarCursos(c *fiber.Ctx) error {
 func GuardarLibro(c *fiber.Ctx) error {
 	var libro Peticiones.PeticionLibro
 	c.BodyParser(&libro)
-	fmt.Println(libro)
+	fmt.Println(libro.Nombre)
 	arbolTutor.GuardarLibro(arbolTutor.Raiz.Primero, libro.Nombre, libro.Contenido, libro.Carnet)
 	return c.JSON(&fiber.Map{
 		"status": 200,
 	})
 }
 
+/****************NUEVO*/
 func ObtenerLibrosAdmin(c *fiber.Ctx) error {
 	listatemp := &arbolB.ListaSimple{Inicio: nil, Longitud: 0}
 	var libros []arbolB.Libro

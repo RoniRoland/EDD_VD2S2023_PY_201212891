@@ -229,7 +229,7 @@ func (a *ArbolB) GuardarLibro(raiz *NodoB, nombre string, contenido string, carn
 				a.GuardarLibro(aux.Izquierdo.Primero, nombre, contenido, carnet)
 			}
 			if aux.Valor.Carnet == carnet {
-				raiz.Valor.Libros = append(raiz.Valor.Libros, &Libro{Nombre: nombre, Contenido: contenido, Estado: 1})
+				raiz.Valor.Libros = append(raiz.Valor.Libros, &Libro{Nombre: nombre, Contenido: contenido, Estado: 1, Curso: raiz.Valor.Curso, Tutor: raiz.Valor.Carnet})
 				fmt.Println("Registre el libro")
 				return
 			}
@@ -251,8 +251,8 @@ func (a *ArbolB) GuardarPublicacion(raiz *NodoB, contenido string, carnet int) {
 				a.GuardarPublicacion(aux.Izquierdo.Primero, contenido, carnet)
 			}
 			if aux.Valor.Carnet == carnet {
-				raiz.Valor.Publicaciones = append(raiz.Valor.Publicaciones, &Publicacion{Contenido: contenido})
-				fmt.Println("Registre el libro")
+				raiz.Valor.Publicaciones = append(raiz.Valor.Publicaciones, &Publicacion{Contenido: contenido, Curso: raiz.Valor.Curso})
+				fmt.Println("Registre publicacion")
 				return
 			}
 			if aux.Siguiente == nil {
