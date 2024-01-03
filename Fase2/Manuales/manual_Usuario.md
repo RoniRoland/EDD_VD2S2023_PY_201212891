@@ -24,88 +24,115 @@ Guatemala, Diciembre del 2023
 
 # Introduccion
 
-El Sistema de Tutorías Estudiantiles es una solución educativa integral diseñada para facilitar la asignación eficiente de tutores a estudiantes. Con una interfaz amigable, el programa permite a los administradores cargar datos masivos de tutores, estudiantes y cursos. Además, ofrece a los estudiantes la capacidad de visualizar tutores disponibles y asignarse automáticamente a través de un proceso transparente. La función de control de estudiantes proporciona herramientas para evaluar y gestionar las asignaciones basándose en criterios específicos. Los reportes detallados ofrecen información valiosa sobre alumnos, tutores, asignaciones y cursos. Este manual guiará a los usuarios a través de las funciones clave, garantizando una experiencia fluida y eficaz.
+Bienvenido al sistema educativo integrado, una plataforma robusta que ofrece a estudiantes y tutores herramientas avanzadas para gestionar recursos académicos. A través de un backend eficiente, el programa permite a los usuarios verificar los libros subidos en cada curso asi como las publicaciones de los tutores, interactuar con un árbol de tutores y acceder a recursos educativos visualizados en un grafo. La seguridad está garantizada mediante encriptación SHA-256, y la interfaz fácil de usar facilita una experiencia educativa enriquecedora.
 
 # Inicio de Sesión
 
-Al iniciar la aplicación, se presentará un menú de inicio de sesión.
+Al iniciar la aplicación, se presentará un menú de inicio de sesión. Al principio solo se podra acceder como administrador, una vez cargado los archivos de tutores y alumnos, ellos mismos podran inidicar sesion.
 
-![Interfaz_grafica](./img/m.png)
+![Interfaz_grafica](./img/i1.png)
 
 Ingrese el nombre de usuario y la contraseña correspondiente.
 
-![Interfaz_grafica](./img/m2.png)
+![Interfaz_grafica](./img/i2.png)
 
 # Menú Principal Administrador
 
-Al ingresar a este menu puedes elegir alguna de las siguientes opciones y cada uno tiene una funcion diferente.
+Este menu principal es para los administradores unicamente. Al ingresar a este menu puedes elegir alguna de las siguientes opciones y cada uno tiene una funcion diferente.
 
-![Interfaz_grafica](./img/ma1.png)
+![Interfaz_grafica](./img/i3.png)
 
-## Carga de Datos:
+## Carga de Archivos:
+
+![Interfaz_grafica](./img/i4.png)
 
 - **Cargar Tutores:** Permite cargar tutores desde un archivo CSV.
 
-    ![Interfaz_grafica](./img/t.png)
-
-- **Cargar Estudiantes:** Permite cargar estudiantes desde un archivo CSV.
-
-    ![Interfaz_grafica](./img/e.png)
+- **Cargar Alumnos:** Permite cargar estudiantes desde un archivo CSV.
 
 - **Cargar Cursos:** Permite cargar cursos desde un archivo JSON.
 
-    ![Interfaz_grafica](./img/c.png)
+    
 
 ## Control de Estudiantes:
 
-- **Aceptar/Rechazar Tutores:** Permite revisar y aceptar/rechazar tutores basándose en su puntaje.
+- **Ver estudiantes Activos:** Permite verificar los estudiantes activos que se cargaron al sistema.
 
-    ![Interfaz_grafica](./img/ce.png)
+    ![Interfaz_grafica](./img/i5.png)
 
+## Libros:
+
+Se muestra un menu donde se puede aceptar o rechazar un libro que haya sido cargado por un tutor.
+
+![Interfaz_grafica](./img/i6.png)
+
+- **Aceptar** Acepta el libro para ser guardado en el sistema.
+
+- **Rechazar:** Rechaza el libro y no lo guarda en el sistema.
+
+- **Finalizar:** Finaliza el proceso para que se guarde en un arbol de merkle.
+
+- **Salir:** Regresa al menu de administrador.
 
 ## Reportes:
-Se muestra un menu donde se puede elegir algun reporte en especifico.
 
-![Interfaz_grafica](./img/re.png)
+Se muestra varias opciones donde se puede elegir algun reporte en especifico.
 
-- **Reporte de Alumnos:** Muestra un informe de todos los estudiantes.
+![Interfaz_grafica](./img/i7.png)
 
-    ![Interfaz_grafica](./img/listadoble.jpg)
+- **Reporte Arbol B:** Muestra un informe de todos los cursos, mostrando los requisitos y post requisitos.
 
-- **Reporte de Tutores:** Muestra un informe de todos los tutores.
+    ![Interfaz_grafica](./img/i8.png)
 
-    ![Interfaz_grafica](./img/listadoblecircular.jpg)
+- **Reporte Grafo:** Muestra un informe de todos los cursos.
 
-- **Reporte de Asignación:** Muestra un informe de la asignación de estudiantes a tutores.
+    ![Interfaz_grafica](./img/i9.png)
 
-    ![Interfaz_grafica](./img/Matriz.jpg)
+- **Reporte Arbol Merkle:** Muestra un informe de las cadenas resultantes de las funciones hash a excepción de la última
+línea que muestra los datos que se utilizó para esas funciones.
 
-- **Reporte de Cursos:** Muestra un informe de todos los cursos.
+    ![Interfaz_grafica](./img/i10.png)
 
-    ![Interfaz_grafica](./img/ArbolAVL.jpg)
+- **Salir:** Regresa al menu de administrador.
 
-- **Salir:** Cierra la sesión actual.
+# Menú Principal - Tutor:
+
+Para ingresar a este menu, se debe de ingresar con el carnet del tutor y su contraseña, y hay que tener checkeado el boton donde indica tutor.
+
+![Interfaz_grafica](./img/a3.png)
+![Interfaz_grafica](./img/a4.png)
+
+En este menu podemos cargar libros y realizar publicaciones.
+
+- **Carga de Libros:** En este el tutor puede cargar un archivo pdf, se abrira una ventana para buscar el archivo pdf y este se mostrara en la pagina.
+
+    ![Interfaz_grafica](./img/a5.png)
+
+- **Carga de Publicaciones:** En este apartado el tutor puede realizar publicaciones y cargarlas al sistema.
+
+    ![Interfaz_grafica](./img/a6.png)
+
+- **Login Principal:** Cierra la sesión actual.
 
 # Menú Principal - Estudiante:
-Para ingresar a este menu, se debe de ingresar con el carnet de un estudiante ingresado.
 
-![Interfaz_grafica](./img/le.png)
+Para ingresar a este menu, se debe de ingresar con el carnet de un estudiante ingresado y su contraseña.
 
-- **Ver Tutores Disponibles:** Muestra una lista de tutores disponibles para asignación.
+![Interfaz_grafica](./img/a1.png)
+![Interfaz_grafica](./img/a2.png)
 
-    ![Interfaz_grafica](./img/td.png)
+En este menu podemos ver los libros que fueron aceptados por el administrador, las publicaciones realizadas por los tutores y los cursos asignados del estudiante.
 
-- **Asignarse a Tutores:** Ingresar Código del Curso y permite asignarse a un curso específico y tutor disponible.
+- **Ver Libros:** Muestra todos los libros que fueron subidos por un tutor y aceptados por el administrador. Los muestra por cada curso.
 
-    ![Interfaz_grafica](./img/at.png)
+    ![Interfaz_grafica](./img/a7.png)
 
-- **Salir:** Cierra la sesión actual.
+- **Ver Publicaciones:** Muestra todas las publicaciones que fueron subidos por un tutor en un curso.
 
-# Instrucciones Generales
+    ![Interfaz_grafica](./img/a8.png)
 
-- **Limpiar Pantalla:** La aplicación limpia la pantalla para mejorar la presentación de los menús.
-- **Presionar Enter para Continuar:** En ciertos puntos, se solicitará presionar Enter para continuar.
+- **Login Principal:** Cierra la sesión actual.
 
 # Conclusiones
 
-El Sistema de Tutorías Estudiantiles ofrece una solución eficiente y fácil de usar para la gestión educativa. La capacidad de cargar datos masivos,asignar tutores automáticamente y evaluar asignaciones agiliza el proceso administrativo. La interfaz intuitiva brinda a los estudiantes la autonomía de seleccionar tutores según sus necesidades. Los reportes detallados permiten una supervisión completa del rendimiento del programa. 
+El Sistema de Tutorías Estudiantiles proporciona una experiencia completa y segura para estudiantes y tutores. Con funciones avanzadas como el árbol de tutores, el grafo interactivo y la gestión eficiente de recursos, los usuarios pueden disfrutar de una plataforma educativa eficaz y centrada en la colaboración. La encriptación SHA-256 garantiza la seguridad de los datos, brindando confianza y tranquilidad a los usuarios.
