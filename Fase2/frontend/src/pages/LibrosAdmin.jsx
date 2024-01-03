@@ -19,7 +19,7 @@ function LibrosAdmin() {
         },
         body: JSON.stringify({
           Carnet: parseInt(valorLocal),
-          Nombre: "Libro1",
+          Nombre: file.name,
           Contenido: content,
         }),
       });
@@ -32,6 +32,12 @@ function LibrosAdmin() {
     };
 
     reader.readAsDataURL(file);
+  };
+
+  const salir = (e) => {
+    e.preventDefault();
+    console.log("Listo");
+    window.open("/principal/tutor", "_self");
   };
 
   return (
@@ -54,6 +60,11 @@ function LibrosAdmin() {
           <div className="mb-3 fw-normal">
             <iframe src={contenidoPDF} width="800" height="800" />
           </div>
+          <center>
+            <button className="w-50 btn btn-outline-primary" onClick={salir}>
+              Salir
+            </button>
+          </center>
         </form>
       </div>
     </div>
