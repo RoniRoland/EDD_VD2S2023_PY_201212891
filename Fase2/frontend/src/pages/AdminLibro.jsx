@@ -66,37 +66,47 @@ function AdminLibro() {
     const aceptar = async (e) => {
         e.preventDefault();
         const valorLocal = localStorage.getItem("user");
-        const response = await fetch("http://localhost:4000/registrar-log", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                Accion: "Aceptado",
-                Nombre: libros[eleccion].Nombre,
-                Tutor: libros[eleccion].Tutor,
-                Curso: libros[eleccion].Curso,
-            }),
-        });
+        if (libros.length > 0) {
+            const response = await fetch("http://localhost:4000/registrar-log", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    Accion: "Aceptado",
+                    Nombre: libros[eleccion].Nombre,
+                    Tutor: libros[eleccion].Tutor,
+                    Curso: libros[eleccion].Curso,
+                }),
+            });
 
-        const result = await response.json();
+            const result = await response.json();
+        }
     };
 
     const rechazar = async (e) => {
         e.preventDefault();
         const valorLocal = localStorage.getItem("user");
-        const response = await fetch("http://localhost:4000/registrar-log", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                Accion: "Rechazado",
-                Nombre: libros[eleccion].Nombre,
-                Tutor: libros[eleccion].Tutor,
-            }),
-        });
+        if (libros.length > 0) {
+            const response = await fetch("http://localhost:4000/registrar-log", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    Accion: "Rechazado",
+                    Nombre: libros[eleccion].Nombre,
+                    Tutor: libros[eleccion].Tutor,
+                }),
+            });
 
+            const result = await response.json();
+        }
+    };
+
+    const finalizar = async (e) => {
+        e.preventDefault();
+        const response = await fetch("http://localhost:4000/finalizar-libros");
         const result = await response.json();
     };
 
@@ -158,7 +168,7 @@ function AdminLibro() {
                         </div>
                         <div className="col">
                             <center>
-                                <button className="w-50 btn btn-warning btn-lg">
+                                <button className="w-50 btn btn-warning btn-lg" onClick={finalizar}>
                                     Finalizar
                                 </button>
                             </center>
